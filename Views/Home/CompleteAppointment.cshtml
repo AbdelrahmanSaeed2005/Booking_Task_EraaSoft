@@ -1,0 +1,123 @@
+﻿@model Doctor
+
+<div class="container my-5">
+    <h2 class="text-center text-gradient fw-bold mb-4">Complete Appointment with Dr. @Model.Name</h2>
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
+    <form action="CompleteAppointment" method="post" class="p-4 rounded shadow-lg bg-dark text-light">
+        <input type="hidden" name="DoctorId" value="@Model.DoctorId" />
+
+        <div class="mb-3">
+            <label for="PatientName" class="form-label fw-semibold">Patient Name</label>
+            <input type="text" class="form-control" id="PatientName" name="PatientName" placeholder="Enter your name" />
+        </div>
+
+        <div class="mb-3">
+            <label for="Date" class="form-label fw-semibold">Date</label>
+            <input type="date" class="form-control" id="Date" name="Date" />
+        </div>
+
+        <div class="mb-3">
+            <label for="Time" class="form-label fw-semibold">Time</label>
+            <input type="time" class="form-control" id="Time" name="Time" min="17:00" max="22:00" step="900" />
+            <small class="text-muted">Booking available from 5:00 PM to 10:00 PM, slots every 15 minutes</small>
+        </div>
+
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-book">🚀 Save Data</button>
+        </div>
+    </form>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-light">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="successModalLabel">Success</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Your appointment has been successfully completed. Thank you!
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelector("form").addEventListener("submit", function (e) {
+        const patientName = document.getElementById("PatientName").value.trim();
+        const date = document.getElementById("Date").value;
+        const time = document.getElementById("Time").value;
+
+        if (!patientName || !date || !time) {
+            alert("Please fill in all fields.");
+            e.preventDefault();
+            return;
+        }
+
+        const selectedDate = new Date(date);
+        const day = selectedDate.getDay();
+        if (day === 5 || day === 6) {
+            alert("Appointments cannot be booked on Friday or Saturday. Please choose another day.");
+            e.preventDefault();
+        }
+    });
+
+    window.onload = function () {
+        var showModal = '@(ViewBag.ShowModal ?? false)'.toLowerCase();
+        if (showModal === 'true') {
+            var myModal = new bootstrap.Modal(document.getElementById('successModal'));
+            myModal.show();
+        }
+    };
+</script>
+
+<style>
+    body {
+        background-color: #1e1e2f;
+        color: #ffffff;
+    }
+
+    .text-gradient {
+        background: linear-gradient(to right, #A2D2FF, #BDE0FE);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .btn-book {
+        background: linear-gradient(to right, #A2D2FF, #BDE0FE);
+        color: #000;
+        padding: 10px 30px;
+        font-weight: 600;
+        border-radius: 30px;
+        text-decoration: none;
+        transition: 0.3s ease;
+        border: none;
+    }
+
+        .btn-book:hover {
+            background: linear-gradient(to right, #BDE0FE, #A2D2FF);
+            transform: scale(1.05);
+            color: #000;
+        }
+
+    input.form-control {
+        background-color: #2a2a3d;
+        border: 1px solid #495057;
+        color: white;
+    }
+
+        input.form-control:focus {
+            background-color: #2a2a3d;
+            color: white;
+            border-color: #A2D2FF;
+            box-shadow: 0 0 0 0.2rem rgba(162, 210, 255, 0.25);
+        }
+</style>

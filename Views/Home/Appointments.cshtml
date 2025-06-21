@@ -1,0 +1,65 @@
+﻿@using Task12_EraaSoft.Models
+@model List<Enrollment>
+
+<div class="container my-5">
+    <h2 class="mb-4 text-center fw-bold text-gradient">Patient Appointments</h2>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-dark table-hover table-striped align-middle shadow-lg rounded-4 overflow-hidden">
+            <thead class="text-center text-light">
+                <tr class="bg-gradient-header">
+                    <th scope="col">Patient Name</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Doctor</th>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="fw-semibold text-light">@item.PatientName</td>
+                        <td class="text-light">@item.Date.ToShortDateString()</td>
+                        <td class="text-light">@item.Time</td>
+                        <td>
+                            <a asp-controller="Home" asp-action="BookAnAppointment" class="text-info fw-bold">
+                                @item.Doctor?.Name
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #1e1e2f;
+        color: #ffffff;
+    }
+
+    .text-gradient {
+        background: linear-gradient(to right, #A2D2FF, #BDE0FE);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .bg-gradient-header {
+        background: linear-gradient(to right, #A2D2FF, #BDE0FE);
+        color: #1e1e2f;
+    }
+
+    table.table {
+        border: 1px solid #444;
+    }
+
+        table.table tbody tr:hover {
+            background-color: #2d2d44;
+        }
+
+    a.text-info:hover {
+        color: #a2d2ff !important;
+        text-decoration: underline;
+    }
+</style>

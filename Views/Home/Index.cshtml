@@ -1,0 +1,64 @@
+﻿@model dynamic
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center my-5">
+    <h1 class="display-4 welcome-title">Welcome to our hospital</h1>
+    <h4 class="welcome-subtext mb-4">Thank you for choosing our hospital for your healthcare needs</h4>
+
+   
+
+    <!-- 👇 الزرار -->
+    <a href="~/home/BookAnAppointment" class="btn btn-book shadow">🚀 Book Now</a>
+</div>
+
+<style>
+    body {
+        background-color: #1e1e2f;
+        color: #ffffff;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .welcome-title {
+        font-weight: 800;
+        font-size: 3rem;
+        background: linear-gradient(to right, #A2D2FF, #BDE0FE);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        margin-bottom: 1rem;
+    }
+
+    .welcome-subtext {
+        font-size: 1.3rem;
+        font-weight: 400;
+        color: #dbefff;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .img-hospital {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border: 4px solid #BDE0FE;
+    }
+
+    .btn-book {
+        background: linear-gradient(to right, #A2D2FF, #BDE0FE);
+        border: none;
+        padding: 10px 30px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #000;
+        border-radius: 30px;
+        transition: 0.3s ease;
+        text-decoration: none;
+    }
+
+        .btn-book:hover {
+            background: linear-gradient(to right, #BDE0FE, #A2D2FF);
+            transform: scale(1.05);
+            color: #000;
+        }
+</style>

@@ -1,0 +1,167 @@
+﻿@model List<Doctor>
+
+<h1 class="text-center text-primary fw-bold my-4">Book Appointment</h1>
+
+<!-- Filter Section -->
+<div class="container mb-5">
+    <form method="get" asp-action="BookAnAppointment">
+        <div class="row align-items-end g-3">
+            <div class="col-md-6 col-lg-4">
+                <label for="specializationId" class="form-label fw-semibold">Choose a Specialization</label>
+                <select name="specializationId" class="form-select">
+                    <option value="">All Specializations</option>
+                    @if (ViewData["listOfSpecializations"] is List<Specialization> specializations)
+                    {
+                        foreach (var item in specializations)
+                        {
+                            if (ViewData["specializationId"] is int specializationId)
+                            {
+                                if (specializationId == item.SpecializationID)
+                                {
+                                    <option value="@item.SpecializationID" selected>@item.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.SpecializationID">@item.Name</option>
+                                }
+                            }
+                            else
+                            {
+                                <option value="@item.SpecializationID">@item.Name</option>
+                            }
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-3 col-lg-2">
+                <button type="submit" class="btn btn-success w-100">Filter</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Doctor Cards Section -->
+<div class="container">
+    <div class="row g-4">
+        @foreach (var item in Model)
+        {
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="card h-100 shadow-lg rounded-4 border-0">
+                    <img src="~/images/@item.Img" alt="@item.Name" class="card-img-top rounded-top-4" style="height: 200px; object-fit: cover;">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-primary fw-bold">@item.Name</h5>
+                        <p class="card-text text-muted mb-4">@item.Specialization.Name</p>
+                        <a asp-controller="Home" asp-action="CompleteAppointment" asp-route-doctorId="@item.DoctorId" class="btn btn-outline-primary mt-auto w-100">
+                            Book Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Pagination -->
+<nav aria-label="Page navigation example" class="mt-5 mb-5">
+    <ul class="pagination justify-content-center">
+        @if (!(ViewBag.currentPage == 1))
+        {
+            <li class="page-item">
+                <a class="page-link" href="/Home/BookAnAppointment?page=@(ViewBag.currentPage - 1)">Previous</a>
+            </li>
+        }
+        @for (int i = 1; i <= ViewBag.totalNumberOfPages; i++)
+        {
+            <li class="page-item @(i == ViewBag.currentPage ? "active" : "")">
+                <a class="page-link" href="/Home/BookAnAppointment?page=@i">@i</a>
+            </li>
+        }
+        @if (!(ViewBag.totalNumberOfPages == ViewBag.currentPage))
+        {
+            <li class="page-item">
+                <a class="page-link" href="/Home/BookAnAppointment?page=@(ViewBag.currentPage + 1)">Next</a>
+            </li>
+        }
+    </ul>
+</nav>
+
+<style>
+    body {
+        background: linear-gradient(135deg, #A2D2FF, #BDE0FE);
+        color: #000;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    h1 {
+        color: #003366;
+    }
+
+    .form-label,
+    .form-select,
+    select,
+    label,
+    .page-link,
+    .card-title,
+    .card-text {
+        color: #003366 !important;
+    }
+
+    .form-select,
+    .form-control,
+    select {
+        background-color: #ffffffcc;
+        border: 1px solid #A2D2FF;
+    }
+
+        .form-select option {
+            background-color: #fff;
+            color: #003366;
+        }
+
+    .btn-success {
+        background-color: #A2D2FF;
+        color: #000;
+        border: none;
+    }
+
+        .btn-success:hover {
+            background-color: #91c9f7;
+        }
+
+    .btn-outline-primary {
+        color: #003366;
+        border-color: #A2D2FF;
+    }
+
+        .btn-outline-primary:hover {
+            background-color: #A2D2FF;
+            color: #000;
+        }
+
+    .card {
+        background: linear-gradient(to bottom, #ffffff, #BDE0FE);
+        border: 1px solid #A2D2FF;
+        color: #000;
+    }
+
+    .card-img-top {
+        border-bottom: 3px solid #A2D2FF;
+    }
+
+    .pagination .page-link {
+        background-color: #ffffffcc;
+        border-color: #A2D2FF;
+        color: #003366;
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #A2D2FF;
+        color: #000;
+        border-color: #A2D2FF;
+    }
+
+    .pagination .page-link:hover {
+        background-color: #91c9f7;
+        color: #000;
+    }
+</style>
